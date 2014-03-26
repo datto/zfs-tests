@@ -8,5 +8,7 @@ main_pool = config.get('perf_tests', 'main_pool')
 # forward slashes
 test_filesystem_path = main_pool + '/' + config.get('perf_tests', 'test_filesystem')
 
+# This will be the full path to the file that will be zfs received during the
+# tests.
 test_file_full_path = config.get('perf_tests', 'test_file')
 
