@@ -12,3 +12,7 @@ def fs_exists(zfs_receive_path):
         return False
     return True
 
+def zfs_recv(file_to_receive, desitnation_fs):
+    """Receive the specified zfs send file to the destination fs"""
+    subprocess.check_call('cat ' + file_to_receive + ' | zfs recv ' + desitnation_fs, shell=True)
+
