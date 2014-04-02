@@ -24,6 +24,6 @@ time_elapsed = end_time - start_time
 
 print("that took " + str(datetime.timedelta(seconds=time_elapsed)))
 
-# CLean up the PID file to allow other runs
+# Clean up the PID file to allow other runs
 Pid.destroy_pid_file()
 
