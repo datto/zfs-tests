@@ -9,7 +9,7 @@ import Pid
 Pid.create_pid_file()
 
 # Establish where this test will be writing its output
-current_min = time.strftime("%Y%m%d%H%M")
+current_min = time.strftime("%Y%m%d%H%M%S")
 zfs_receive_path = Configs.test_filesystem_path + '/' + current_min
 
 if ZfsApi.fs_exists(zfs_receive_path):
