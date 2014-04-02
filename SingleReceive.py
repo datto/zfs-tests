@@ -13,7 +13,11 @@ current_min = time.strftime("%Y%m%d%H%M%S")
 zfs_receive_path = Configs.test_filesystem_path + '/' + current_min
 
 start_time = time.time()
-ZfsApi.zfs_recv(Configs.test_file_full_path, zfs_receive_path)
+try:
+    ZfsApi.zfs_recv(Configs.test_file_full_path, zfs_receive_path)
+except KeyboardInterrupt:
+    pass
+
 end_time = time.time()
 
 time_elapsed = end_time - start_time
