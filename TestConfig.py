@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 import Configs
 
 # This class will quickly test if your machine is properly configured for
@@ -13,6 +14,31 @@ if not os.access('/dev/zfs' ,os.R_OK):
     print("You do not have read permissions to /dev/zfs, can you run zfs"
         + " commands?")
     sys.exit(1)
+
+# Check that the area we are going to be working in exists. If it does not
+# offer to set it up for the user.
+if not os.path.isdir(Configs.mount_point):
+    print("Could not find the pref_tests directory " +
+            Configs.mount_point)
+    result = raw_input("Create it? [Y/n] ")
+    if result == "Y":
+        subprocess.check_call(['zfs', 'create', '-p',
+            Configs.test_filesystem_path,
+            '-o', "mountpoint=" + Configs.mount_point])
+        # Create the corpus directory, currently setting primarycahce=none
+        # since not doing so results in abnormalities in test timing. I thin
+        # this will become especially useful when this process becomes
+        # multithreaded.
+        subprocess.check_call(['zfs', 'create',
+            Configs.test_filesystem_path + '/corpus',
+            '-o', 'primarycache=none'])
+        # Create the area for test runs to go. I keep this in a separate area
+        # to ensure that cleanup is easy
+        subprocess.check_call(['zfs', 'create',
+            Configs.test_filesystem_path + '/runs'])
+    else:
+        print("Exiting tests")
+        sys.exit(1)
 
 # Check that the specified test file exists
 if not os.path.isfile(Configs.test_file_full_path):
