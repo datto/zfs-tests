@@ -5,6 +5,7 @@ import TestConfig
 import Configs
 import ZfsApi
 import Pid
+import Common
 
 Pid.create_pid_file()
 
@@ -23,6 +24,17 @@ end_time = time.time()
 time_elapsed = end_time - start_time
 
 print("that took " + str(datetime.timedelta(seconds=time_elapsed)))
+
+property_dictionary = ZfsApi.get_filesystem_properties(zfs_receive_path, ['used'])
+
+used_in_bytes = property_dictionary["used"]
+used_in_mebibytes = Common.bytes_to_mebibyte(used_in_bytes)
+
+print("received " + str(used_in_bytes))
+
+bytes_per_second = used_in_mebibytes / time_elapsed
+
+print("Speed: " + str(bytes_per_second) + " MiB/s")
 
 # Clean up the PID file to allow other runs
 Pid.destroy_pid_file()
