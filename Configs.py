@@ -12,3 +12,6 @@ test_filesystem_path = main_pool + '/' + config.get('perf_tests', 'test_filesyst
 # tests.
 test_file_full_path = config.get('perf_tests', 'test_file')
 
+# The directory the tests will occur in.
+mount_point = config.get('perf_tests', 'mount_point')
+
