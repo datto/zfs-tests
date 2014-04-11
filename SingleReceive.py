@@ -11,7 +11,7 @@ Pid.create_pid_file()
 
 # Establish where this test will be writing its output
 current_min = time.strftime("%Y%m%d%H%M%S")
-zfs_receive_path = Configs.test_filesystem_path + '/' + current_min
+zfs_receive_path = Configs.test_filesystem_path + '/runs/' + current_min
 
 start_time = time.time()
 try:
