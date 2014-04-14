@@ -46,3 +46,8 @@ def get_filesystem_properties(filesystem_name, property_set):
         propery_dictionary[split_line[1]] = split_line[2]
     return propery_dictionary
 
+def get_filesystem_size(filesystem_name):
+    """Return the size of the named filesystem in bytes as an int"""
+    propery_dictionary = get_filesystem_properties(filesystem_name, ['used'])
+    return int(propery_dictionary['used'])
+
