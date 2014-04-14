@@ -8,15 +8,17 @@ import Configs
 
 # TODO check that zfs is installed, perhaps get version
 def check_all():
-    # Check that the user running this script has permissions to run zfs
-    # commands this is established by having read permissions on the /dev/zfs
-    # device
+    permissions_check()
+    check_filesystems()
+    check_testfile()
+
+def permissions_check():
+    # Check that the calling user has permissions to run zfs commands this is
+    # established by having read permissions on the /dev/zfs device
     if not os.access('/dev/zfs' ,os.R_OK):
         print("You do not have read permissions to /dev/zfs, can you run zfs"
             + " commands?")
         sys.exit(1)
-    check_filesystems()
-    check_testfile()
 
 def check_filesystems():
     # Check that the area we are going to be working in exists. If it does not
