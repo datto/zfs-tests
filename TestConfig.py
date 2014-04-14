@@ -15,7 +15,10 @@ def check_all():
         print("You do not have read permissions to /dev/zfs, can you run zfs"
             + " commands?")
         sys.exit(1)
+    check_filesystems()
+    check_testfile()
 
+def check_filesystems():
     # Check that the area we are going to be working in exists. If it does not
     # offer to set it up for the user.
     if not os.path.isdir(Configs.mount_point):
@@ -40,7 +43,6 @@ def check_all():
         else:
             print("Exiting tests")
             sys.exit(1)
-    check_testfile()
 
 def check_testfile():
     '''Perfomr tests to ensure the test file will be usable'''
