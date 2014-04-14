@@ -40,7 +40,10 @@ def check_all():
         else:
             print("Exiting tests")
             sys.exit(1)
+    check_testfile()
 
+def check_testfile():
+    '''Perfomr tests to ensure the test file will be usable'''
     # Check that the specified test file exists
     if not os.path.isfile(Configs.test_file_full_path):
         print("The test file does not exits. It is set to " + 
