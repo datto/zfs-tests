@@ -7,6 +7,9 @@ import ZfsApi
 import Pid
 import Common
 
+# Use TestConfig to ensure this computer is set up properly
+TestConfig.check_all()
+
 Pid.create_pid_file()
 
 # Establish where this test will be writing its output
