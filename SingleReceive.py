@@ -6,6 +6,7 @@ import Configs
 import ZfsApi
 import Pid
 import Common
+import MonitorThread
 
 # Use TestConfig to ensure this computer is set up properly
 TestConfig.check_all()
@@ -15,6 +16,9 @@ Pid.create_pid_file()
 # Establish where this test will be writing its output
 current_min = time.strftime("%Y%m%d%H%M%S")
 zfs_receive_path = Configs.test_filesystem_path + '/runs/' + current_min
+
+monitor_thread = MonitorThread.MonitorThread(zfs_receive_path)
+monitor_thread.start()
 
 start_time = time.time()
 try:
