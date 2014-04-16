@@ -28,23 +28,28 @@ def check_filesystems():
                 Configs.mount_point)
         result = raw_input("Create it? [Y/n] ")
         if result == "Y":
-            subprocess.check_call(['zfs', 'create', '-p',
-                Configs.test_filesystem_path,
-                '-o', "mountpoint=" + Configs.mount_point])
-            # Create the corpus directory, currently setting primarycahce=none
-            # since not doing so results in abnormalities in test timing. I
-            # think this will become especially useful when this process
-            # becomes multithreaded.
-            subprocess.check_call(['zfs', 'create',
-                Configs.test_filesystem_path + '/corpus',
-                '-o', 'primarycache=none'])
-            # Create the area for test runs to go. I keep this in a separate
-            # area to ensure that cleanup is easy
-            subprocess.check_call(['zfs', 'create',
-                Configs.test_filesystem_path + '/runs'])
+            setup_system()
         else:
             print("Exiting tests")
             sys.exit(1)
+
+def setup_system():
+    # This function will setup the zfs filesystems, it does not perform
+    # any checks, call it when you know this machine needs to be set up
+    subprocess.check_call(['zfs', 'create', '-p',
+        Configs.test_filesystem_path,
+        '-o', "mountpoint=" + Configs.mount_point])
+    # Create the corpus directory, currently setting primarycahce=none
+    # since not doing so results in abnormalities in test timing. I
+    # think this will become especially useful when this process
+    # becomes multithreaded.
+    subprocess.check_call(['zfs', 'create',
+        Configs.test_filesystem_path + '/corpus',
+        '-o', 'primarycache=none'])
+    # Create the area for test runs to go. I keep this in a separate
+    # area to ensure that cleanup is easy
+    subprocess.check_call(['zfs', 'create',
+        Configs.test_filesystem_path + '/runs'])
 
 def check_testfile():
     '''Perfomr tests to ensure the test file will be usable'''
