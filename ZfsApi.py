@@ -58,3 +58,14 @@ def snapshot_filesystem(filesystem_name, snapshot_name):
     full_snapshot_name = filesystem_name + '@' + snapshot_name
     subprocess.check_call(['zfs', 'snapshot', full_snapshot_name])
 
+def create_filesystem(file_system_path):
+    """Creates a zfs filesystem. This function requires that its direct parent
+    exists"""
+    # Figure out if the parent file system exists
+    final_slash = str.rfind(file_system_path, '/')
+    parent_fs_name = file_system_path[:final_slash]
+    if not fs_exists(parent_fs_name):
+        raise ValueError("Parent filesystem does not exist for " 
+                + file_system_path)
+    subprocess.check_call(['zfs', 'create', file_system_path])
+
