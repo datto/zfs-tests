@@ -51,3 +51,10 @@ def get_filesystem_size(filesystem_name):
     propery_dictionary = get_filesystem_properties(filesystem_name, ['used'])
     return int(propery_dictionary['used'])
 
+def snapshot_filesystem(filesystem_name, snapshot_name):
+    """Snapshot a filesystem with a given name"""
+    if not fs_exists(filesystem_name):
+        raise ValueError(filesystem_name + " Does not exist")
+    full_snapshot_name = filesystem_name + '@' + snapshot_name
+    subprocess.check_call(['zfs', 'snapshot', full_snapshot_name])
+
