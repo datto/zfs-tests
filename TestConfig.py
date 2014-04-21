@@ -10,7 +10,6 @@ import Configs
 def check_all():
     permissions_check()
     check_filesystems()
-    check_testfile()
 
 def permissions_check():
     # Check that the calling user has permissions to run zfs commands this is

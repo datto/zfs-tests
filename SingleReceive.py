@@ -10,6 +10,8 @@ import MonitorThread
 
 # Use TestConfig to ensure this computer is set up properly
 TestConfig.check_all()
+# This test case will use the test send file, check that it will work
+TestConfig.check_testfile()
 
 Pid.create_pid_file()
 
