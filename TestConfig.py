@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import Configs
+import ZfsApi
 
 # This class will quickly test if your machine is properly configured for
 # these perf tests.
@@ -47,8 +48,7 @@ def setup_system():
         '-o', 'primarycache=none'])
     # Create the area for test runs to go. I keep this in a separate
     # area to ensure that cleanup is easy
-    subprocess.check_call(['zfs', 'create',
-        Configs.test_filesystem_path + '/runs'])
+    ZfsApi.create_filesystem(Configs.test_filesystem_path + '/runs')
 
 def check_testfile():
     '''Perfomr tests to ensure the test file will be usable'''
