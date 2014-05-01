@@ -49,6 +49,11 @@ def setup_system():
     # Create the area for test runs to go. I keep this in a separate
     # area to ensure that cleanup is easy
     ZfsApi.create_filesystem(Configs.test_filesystem_path + '/runs')
+    # Create the log directory, and its two sub directories
+    ZfsApi.create_filesystem(Configs.test_filesystem_path + '/logs')
+    # The two sub directories are not zfs filesystems
+    os.mkdir(Configs.results_directory)
+    os.mkdir(Configs.stats_directory)
 
 def check_testfile():
     '''Perfomr tests to ensure the test file will be usable'''
