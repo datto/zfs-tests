@@ -69,3 +69,16 @@ def create_filesystem(file_system_path):
                 + file_system_path)
     subprocess.check_call(['zfs', 'create', file_system_path])
 
+def get_current_txg(pool_name):
+    """Get the current transaction group number for a given pool. Note that
+    this call actually takes some time, since it actually reads from the
+    disk"""
+    get_response = subprocess.check_output(['zdb', '-u', 'tank'])
+    for line in get_response.splitlines():
+        if "txg" in line:
+            # The line looks something like
+            # |        txg = 7101599|
+            # so there is a tab at the beginning, but thats not the part we are
+            # looking at.
+            return line.split(' ')[2]
+
