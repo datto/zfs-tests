@@ -95,3 +95,15 @@ def linux_get_current_txg(pool_name):
     current_txg = split_line[0]
     return int(current_txg)
 
+def get_pool_name_for_fs(filesystem):
+    """Filesystem names are / delimited lists of filesystems, where the text
+    before the first / is the name of the zpool this FS belongs to."""
+    if not '/' in filesystem:
+        # This means the FS is the base FS made for the pool, and you do not
+        # have to change anything to get its pool name
+        return filesystem
+    else:
+        # If there is a / then it is a child filesystem, and we only want the
+        # part prior to the first /
+        return filesystem[:filesystem.find('/')]
+
