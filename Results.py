@@ -52,8 +52,12 @@ class ResultsCollector():
         self.log("time: " + str(current_time))
         current_txg = ZfsApi.get_current_txg(Configs.main_pool)
         self.log("TXG: " + current_txg)
-        current_size = ZfsApi.get_filesystem_size(self.filesystem)
-        self.log("size: " + str(current_size))
+        # If the filesystem does not exist, its size is 0.
+        if ZfsApi.fs_exists(self.filesystem):
+            current_size = ZfsApi.get_filesystem_size(self.filesystem)
+            self.log("size: " + str(current_size))
+        else:
+            self.log("size: 0")
         self.log("zpool iostat -v:")
         self.log(subprocess.check_output(['zpool', 'iostat', '-v']))
         self.log("zpool status:")
