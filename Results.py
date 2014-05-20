@@ -41,6 +41,10 @@ class ResultsCollector():
         self.log("start TXG: " + current_txg)
         current_size = ZfsApi.get_filesystem_size(self.filesystem)
         self.log("start size: " + str(current_size))
+        self.log("zpool iostat -v:")
+        self.log(subprocess.check_output(['zpool', 'iostat', '-v']))
+        self.log("zpool status:")
+        self.log(subprocess.check_output(['zpool', 'status']))
         self.log_file_handle.close()
 
     def gather_end_results():
