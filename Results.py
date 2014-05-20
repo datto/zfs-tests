@@ -17,11 +17,12 @@ END
 import ZfsApi
 import time
 import Configs
+import subprocess
 
 class ResultsCollector():
 
-    def log(self, log_file_handle, message):
-        log_file_handle.write(message + "\n")
+    def log(self, message):
+        self.log_file_handle.write(message + "\n")
 
     def __init__(self, filesystem):
         self.filesystem = filesystem
@@ -33,14 +34,14 @@ class ResultsCollector():
         print("log file is " + self.logfile)
 
     def gather_start_results(self):
-        log_file_handle = open(self.logfile, 'a')
+        self.log_file_handle = open(self.logfile, 'a')
         current_time = time.time()
-        self.log(log_file_handle, "start time: " + str(current_time))
+        self.log("start time: " + str(current_time))
         current_txg = ZfsApi.get_current_txg(Configs.main_pool)
-        self.log(log_file_handle, "start TXG: " + current_txg)
+        self.log("start TXG: " + current_txg)
         current_size = ZfsApi.get_filesystem_size(self.filesystem)
-        self.log(log_file_handle, "start size: " + str(current_size))
-        log_file_handle.close()
+        self.log("start size: " + str(current_size))
+        self.log_file_handle.close()
 
     def gather_end_results():
         print(hello)
