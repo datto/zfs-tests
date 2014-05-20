@@ -35,18 +35,27 @@ class ResultsCollector():
 
     def gather_start_results(self):
         self.log_file_handle = open(self.logfile, 'a')
+        self.log("START")
+        self.print_stats_to_file()
+        self.log_file_handle.close()
+
+    def gather_end_results(self):
+        self.log_file_handle = open(self.logfile, 'a')
+        self.log("END")
+        self.print_stats_to_file()
+        self.log_file_handle.close()
+
+    def print_stats_to_file(self):
+        """Since the stats collected at the begingng and end of a run are the
+        same, they can be collapsed into a single function"""
         current_time = time.time()
-        self.log("start time: " + str(current_time))
+        self.log("time: " + str(current_time))
         current_txg = ZfsApi.get_current_txg(Configs.main_pool)
-        self.log("start TXG: " + current_txg)
+        self.log("TXG: " + current_txg)
         current_size = ZfsApi.get_filesystem_size(self.filesystem)
-        self.log("start size: " + str(current_size))
+        self.log("size: " + str(current_size))
         self.log("zpool iostat -v:")
         self.log(subprocess.check_output(['zpool', 'iostat', '-v']))
         self.log("zpool status:")
         self.log(subprocess.check_output(['zpool', 'status']))
-        self.log_file_handle.close()
-
-    def gather_end_results():
-        print(hello)
 
