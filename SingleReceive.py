@@ -7,6 +7,7 @@ import ZfsApi
 import Pid
 import Common
 import MonitorThread
+import Results
 
 # Use TestConfig to ensure this computer is set up properly
 TestConfig.check_all()
@@ -19,6 +20,9 @@ Pid.create_pid_file()
 current_min = time.strftime("%Y%m%d%H%M%S")
 zfs_receive_path = Configs.test_filesystem_path + '/runs/' + current_min
 
+results_collector = Results.ResultsCollector(zfs_receive_path)
+results_collector.gather_start_results()
+
 monitor_thread = MonitorThread.MonitorThread(zfs_receive_path)
 monitor_thread.start()
 
@@ -29,6 +33,8 @@ except KeyboardInterrupt:
     pass
 
 end_time = time.time()
+
+results_collector.gather_end_results()
 
 time_elapsed = end_time - start_time
 
