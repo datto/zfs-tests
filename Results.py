@@ -31,7 +31,6 @@ class ResultsCollector():
         # unique name for the log file.
         fs_name = filesystem[filesystem.rfind('/'):]
         self.logfile = Configs.results_directory +  fs_name
-        print("log file is " + self.logfile)
 
     def gather_start_results(self):
         self.log_file_handle = open(self.logfile, 'a')
