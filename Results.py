@@ -2,16 +2,10 @@
 A class to track results of tests. It will track the filesystem that was
 given to it during its creation. Current stats that it will track are:
 
-BEGIN
 -start time
 -start TXG
 -starting size
--zpool iostat -v
-
-END
--end TXG
--end time
--ending size (note, will not help in the case of deletions, record it anyways)
+-zpool status
 -zpool iostat -v
 """
 import ZfsApi
