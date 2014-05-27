@@ -73,7 +73,7 @@ def get_current_txg(pool_name):
     """Get the current transaction group number for a given pool. Note that
     this call actually takes some time, since it actually reads from the
     disk"""
-    get_response = subprocess.check_output(['zdb', '-u', 'tank'])
+    get_response = subprocess.check_output(['zdb', '-u', pool_name])
     for line in get_response.splitlines():
         if "txg" in line:
             # The line looks something like
