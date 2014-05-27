@@ -107,3 +107,14 @@ def get_pool_name_for_fs(filesystem):
         # part prior to the first /
         return filesystem[:filesystem.find('/')]
 
+def zpool_exists(pool_name):
+    """Returns true of a pool by the input name is found on this system, false
+    otherwise"""
+    devnull = open(os.devnull, 'w')
+    try:
+        subprocess.check_call(['zpool', 'get', 'name', pool_name],
+                stdout=devnull, stderr=devnull)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
