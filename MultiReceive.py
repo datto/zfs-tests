@@ -2,6 +2,7 @@ import time
 import datetime
 import subprocess
 import multiprocessing
+import argparse
 import TestConfig
 import Configs
 import ZfsApi
@@ -10,6 +11,12 @@ import Common
 import MonitorThread
 import ReceiveThread
 import Results
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--verbose', action="store_true",
+        help="The script will periodically print stats about TXGs and "
+        " receive speed")
+args = parser.parse_args()
 
 # Use TestConfig to ensure this computer is set up properly
 TestConfig.check_all()
@@ -25,8 +32,9 @@ zfs_receive_path = Configs.test_filesystem_path + '/runs/' + current_min
 results_collector = Results.ResultsCollector(zfs_receive_path)
 results_collector.gather_start_results()
 
-monitor_thread = MonitorThread.MonitorThread(zfs_receive_path)
-monitor_thread.start()
+if args.verbose:
+    monitor_thread = MonitorThread.MonitorThread(zfs_receive_path)
+    monitor_thread.start()
 
 # Create the base FS that each thread will be receiveing into sub filesystem
 ZfsApi.create_filesystem(zfs_receive_path)
