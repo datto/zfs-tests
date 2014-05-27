@@ -1,6 +1,7 @@
 import time
 import datetime
 import subprocess
+import multiprocessing
 import TestConfig
 import Configs
 import ZfsApi
@@ -31,19 +32,17 @@ monitor_thread.start()
 ZfsApi.create_filesystem(zfs_receive_path)
 
 start_time = time.time()
+
+def receive_file(zfs_filesystem):
+    print("receiving on " + zfs_filesystem)
+    ZfsApi.zfs_recv(Configs.test_file_full_path, zfs_filesystem)
+
 try:
-    this_guys_fs = zfs_receive_path + "/1"
-    recvthrd = ReceiveThread.ReceiveThread(this_guys_fs, Configs.test_file_full_path)
-    recvthrd.start()
-    this_guys_fs = zfs_receive_path + "/2"
-    recvthrd = ReceiveThread.ReceiveThread(this_guys_fs, Configs.test_file_full_path)
-    recvthrd.start()
-    this_guys_fs = zfs_receive_path + "/3"
-    recvthrd = ReceiveThread.ReceiveThread(this_guys_fs, Configs.test_file_full_path)
-    recvthrd.start()
-    this_guys_fs = zfs_receive_path + "/4"
-    recvthrd = ReceiveThread.ReceiveThread(this_guys_fs, Configs.test_file_full_path)
-    recvthrd.start()
+    zfs_filesystem_list = [zfs_receive_path + "/1", zfs_receive_path + "/2", zfs_receive_path + "/3", zfs_receive_path + "/4"]
+    workerPool = multiprocessing.Pool(processes = 4)
+    workerPool.map(receive_file, zfs_filesystem_list)
+    workerPool.close()
+    workerPool.join()
 except KeyboardInterrupt:
     pass
 
