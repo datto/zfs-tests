@@ -10,6 +10,7 @@ import ZfsApi
 # TODO check that zfs is installed, perhaps get version
 def check_all():
     permissions_check()
+    check_pool_exists()
     check_filesystems()
 
 def permissions_check():
@@ -18,6 +19,14 @@ def permissions_check():
     if not os.access('/dev/zfs' ,os.R_OK):
         print("You do not have read permissions to /dev/zfs, can you run zfs"
             + " commands?")
+        sys.exit(1)
+
+def check_pool_exists():
+    """The config file specifies a pool that the testing will be happening on,
+    make sure that the pool exists"""
+    if not ZfsApi.zpool_exists(Configs.main_pool):
+        print("The main pool in config.cfg is " + Configs.main_pool +
+            " however no pool by that name was found. Is your pool setup?")
         sys.exit(1)
 
 def check_filesystems():
