@@ -45,7 +45,6 @@ ZfsApi.create_filesystem(zfs_receive_path)
 start_time = time.time()
 
 def receive_file(zfs_filesystem):
-    print("receiving on " + zfs_filesystem)
     ZfsApi.zfs_recv(Configs.test_file_full_path, zfs_filesystem)
 
 try:
