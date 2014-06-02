@@ -98,6 +98,7 @@ threads| speed in MiB/s | TXGs/s
 5 |~130.00 |.85
 6 |~105.00 |.90
 7 |~~100.00  |.90
+8 |~~105.00  |.90
 
 As noted above, in my setup the zpool is both serving the reads for the
 sendfiles, as well as writing them to disk. This means that for every thread you
