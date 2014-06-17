@@ -32,6 +32,8 @@ Pid.create_pid_file()
 current_min = time.strftime("%Y%m%d%H%M%S")
 zfs_receive_path = Configs.test_filesystem_path + '/runs/' + current_min
 
+start_txg = ZfsApi.get_current_txg(Configs.main_pool)
+
 results_collector = Results.ResultsCollector(zfs_receive_path)
 results_collector.gather_start_results()
 
@@ -62,9 +64,16 @@ end_time = time.time()
 
 results_collector.gather_end_results()
 
+end_txg = ZfsApi.get_current_txg(Configs.main_pool)
+
 time_elapsed = end_time - start_time
 
 print("that took " + str(datetime.timedelta(seconds=time_elapsed)))
+
+elapsed_txgs = end_txg - start_txg
+txgs_per_second = elapsed_txgs / time_elapsed
+
+print("TXGs/second: " + str(txgs_per_second))
 
 property_dictionary = ZfsApi.get_filesystem_properties(zfs_receive_path, ['used'])
 
