@@ -80,7 +80,7 @@ def get_current_txg(pool_name):
             # |        txg = 7101599|
             # so there is a tab at the beginning, but thats not the part we are
             # looking at.
-            return line.split(' ')[2]
+            return int(line.split(' ')[2])
 
 def linux_get_current_txg(pool_name):
     """Gets the most recent transaction group number. Since the txg file is

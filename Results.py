@@ -44,7 +44,7 @@ class ResultsCollector():
         current_time = time.time()
         self.log("time: " + str(current_time))
         current_txg = ZfsApi.get_current_txg(Configs.main_pool)
-        self.log("TXG: " + current_txg)
+        self.log("TXG: " + str(current_txg))
         # If the filesystem does not exist, its size is 0.
         if ZfsApi.fs_exists(self.filesystem):
             current_size = ZfsApi.get_filesystem_size(self.filesystem)
