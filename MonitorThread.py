@@ -5,7 +5,7 @@ import Common
 import MovingAverage
 '''
 This class will monitor the size of a zfs filesytem, and report the size
-progress over time
+progress over time. It also reports the TXGs/time.
 '''
 
 class MonitorThread(threading.Thread):
